@@ -9,13 +9,26 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 
 
 public class NaverDataLabTrend {
 
-	public static void main(String[] args) {
+	public static JSONObject getData() {
 		String clientId = "9LFRw8V0i87VoRgUF6ug"; // 애플리케이션 클라이언트 아이디
 		String clientSecret = "XMs3b8dXb_"; // 애플리케이션 클라이언트 시크릿
 
@@ -25,19 +38,62 @@ public class NaverDataLabTrend {
 		requestHeaders.put("X-Naver-Client-Id", clientId);
 		requestHeaders.put("X-Naver-Client-Secret", clientSecret);
 		requestHeaders.put("Content-Type", "application/json");
-
-		String requestBody = "{\"startDate\":\"2020-01-01\"," +
-				"\"endDate\":\"2020-12-01\"," +
-				"\"timeUnit\":\"month\"," +
-				"\"keywordGroups\":[{\"groupName\":\"한글\"," + "\"keywords\":[\"한글\",\"korean\"]}," +
-				"{\"groupName\":\"영어\"," + "\"keywords\":[\"영어\",\"english\"]}]," +
-				"\"device\":\"pc\"," +
-				"\"ages\":[\"1\",\"2\"]," +
-				"\"gender\":\"f\"}";
+		
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd",Locale.KOREA);
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -1);
+		String yesterday = sdf.format(cal.getTime());
+		cal.add(Calendar.MONTH, -1);
+		String aMonthAgo = sdf.format(cal.getTime());
+		
+		
+		String requestBody = "{\"startDate\":\""+aMonthAgo+"\"," +
+				"\"endDate\":\""+yesterday+"\"," +
+				"\"timeUnit\":\"date\"," +
+				"\"keywordGroups\":[{\"groupName\":\"비건\"," + 
+				"\"keywords\":[\"비건\",\"vegan\",\"비거니즘\",\"비건 인식\",\"비건 라이프 스타일\",\"비건 뜻\",\"비건 인구\",\"비건 정보\",\"비건 커뮤니티\",\"채식주의자\",\"vegan products\"]}," +
+				"{\"groupName\":\"채식 레시피\"," + 
+				"\"keywords\":[\"비건 쇼핑몰\",\"채식\",\"비건 까페\",\"비건 맛집\",\"비건 디저트 카페\",\"비건 식단\",\"비건 베이킹\",\"채식 요리\",\"비건 식당\",\"채식 식당\",\"비건 요리\",\"채식 요리\"]}," +
+				"{\"groupName\":\"채식건강\"," + 
+				"\"keywords\":[\"비건 건강\",\"식이요법\",\"암환자 채식\",\"채식 식단\",\"채식 요리\",\"비건 요리\"]}]" +
+				"}";
 
 		String responseBody = post(apiUrl, requestHeaders, requestBody);
-		System.out.println(responseBody);
-	}//////////////////////////////////////////////main
+		System.out.println("네이버 API 결과: "+responseBody);
+		
+		//org.json.simple.parser.JSONParser 이용
+		JSONParser parser = new JSONParser();
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = (JSONObject)parser.parse(responseBody);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		//System.out.println(jsonObject.get("results"));
+		
+		
+		
+		//jackson.map 의 ObjectMapper
+		/*
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			List<Map<String,Object>> readValue = objectMapper.readValue(responseBody, 
+				new TypeReference<List<Map<String,Object>>>() {});
+			for(Map<String,Object> map : readValue) {
+				System.out.println(map);
+			}
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		*/
+		
+		return jsonObject;
+	}//////////////////////////////////////////////getData
 
 	private static String post(String apiUrl, Map<String, String> requestHeaders, String requestBody) {
 		HttpURLConnection con = connect(apiUrl);

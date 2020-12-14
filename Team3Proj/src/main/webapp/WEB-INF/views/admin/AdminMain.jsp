@@ -3,63 +3,126 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!-- admin_main -->
 
+<!-- 구글 차트용 -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <!-- 파이 차트 -->
-<script type="text/javascript"
-	src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['비건',     11],
-          ['락토',      2],
-          ['오보',  2],
-          ['페스코', 2],
-        ]);
+	google.charts.load('current', {
+		'packages' : [ 'corechart' ]
+	});
+	google.charts.setOnLoadCallback(drawChart);
+	function drawChart() {
+		var data = google.visualization.arrayToDataTable([
+				[ 'Task', 'Hours per Day' ], [ '비건', 11 ], [ '락토', 2 ],
+				[ '오보', 2 ], [ '페스코', 2 ], ]);
 
-        var options = {
-          title: ''
-        };
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-        chart.draw(data, options);
-        window.addEventListener('resize',drawChart,false);//사이즈 동적으로 변화
-      }
-    </script>
+		var options = {
+			title : ''
+		};
+		var chart = new google.visualization.PieChart(document
+				.getElementById('piechart'));
+		chart.draw(data, options);
+		window.addEventListener('resize', drawChart, false);//사이즈 동적으로 변화
+	}
+</script>
 
-<!-- 검색어 트렌드 확인 -->
-<script type="text/javascript"
-	src="https://www.gstatic.com/charts/loader.js"></script>
+<!-- 막대 그래프-->
 <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawVisualization);
+	google.charts.load('current', {
+		'packages' : [ 'corechart' ]
+	});
+	google.charts.setOnLoadCallback(drawVisualization);
 
-      function drawVisualization() {
-        // Some raw data (not necessarily accurate)
-        var data = google.visualization.arrayToDataTable([
-          ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
-          ['2004/05',  165,      938,         522,             998,           450,      614.6],
-          ['2005/06',  135,      1120,        599,             1268,          288,      682],
-          ['2006/07',  157,      1167,        587,             807,           397,      623],
-          ['2007/08',  139,      1110,        615,             968,           215,      609.4],
-          ['2008/09',  136,      691,         629,             1026,          366,      569.6]
-        ]);
+	function drawVisualization() {
+		// Some raw data (not necessarily accurate)
+		var data = google.visualization.arrayToDataTable([
+				[ 'Month', 'Bolivia', 'Ecuador', 'Madagascar',
+						'Papua New Guinea', 'Rwanda', 'Average' ],
+				[ '2004/05', 165, 938, 522, 998, 450, 614.6 ],
+				[ '2005/06', 135, 1120, 599, 1268, 288, 682 ],
+				[ '2006/07', 157, 1167, 587, 807, 397, 623 ],
+				[ '2007/08', 139, 1110, 615, 968, 215, 609.4 ],
+				[ '2008/09', 136, 691, 629, 1026, 366, 569.6 ] ]);
 
-        var options = {
-          title : 'Monthly Coffee Production by Country',
-          vAxis: {title: 'Cups'},
-          hAxis: {title: 'Month'},
-          seriesType: 'bars',
-          series: {5: {type: 'line'}}
-        };
+		var options = {
+			title : 'Monthly Coffee Production by Country',
+			vAxis : {
+				title : 'Cups'
+			},
+			hAxis : {
+				title : 'Month'
+			},
+			seriesType : 'bars',
+			series : {
+				5 : {
+					type : 'line'
+				}
+			},
+			legend: {position:'bottom'}
+		};
 
-        var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-        window.addEventListener('resize',drawChart,false);//사이즈 동적으로 변화
-      }
-    </script>
+		var chart = new google.visualization.ComboChart(document
+				.getElementById('chart_div1'));
+		chart.draw(data, options);
+		window.addEventListener('resize', drawVisualization, false);//사이즈 동적으로 변화
+	}
+</script>
 
 
+<!-- 꺽은선 그래프  -->
+<!-- Naver 검색어 트랜드 API 적용 -->
+<script type="text/javascript">
+	google.charts.load('current', {
+		packages : [ 'corechart', 'line' ]
+	});
+	google.charts.setOnLoadCallback(drawCurveTypes);
+
+	function drawCurveTypes() {
+		var data = new google.visualization.DataTable();
+		data.addColumn('number', 'X');
+		data.addColumn('number', '비건');
+		data.addColumn('number', '채식 레시피');
+
+		data.addRows([ [ 0, 0, 0 ], [ 1, 10, 5 ], [ 2, 23, 15 ], [ 3, 17, 9 ],
+				[ 4, 18, 10 ], [ 5, 9, 5 ], [ 6, 11, 3 ], [ 7, 27, 19 ],
+				[ 8, 33, 25 ], [ 9, 40, 32 ], [ 10, 32, 24 ], [ 11, 35, 27 ],
+				[ 12, 30, 22 ], [ 13, 40, 32 ], [ 14, 42, 34 ], [ 15, 47, 39 ],
+				[ 16, 44, 36 ], [ 17, 48, 40 ], [ 18, 52, 44 ], [ 19, 54, 46 ],
+				[ 20, 42, 34 ], [ 21, 55, 47 ], [ 22, 56, 48 ], [ 23, 57, 49 ],
+				[ 24, 60, 52 ], [ 25, 50, 42 ], [ 26, 52, 44 ], [ 27, 51, 43 ],
+				[ 28, 49, 41 ], [ 29, 53, 45 ], [ 30, 55, 47 ], [ 31, 60, 52 ],
+				[ 32, 61, 53 ], [ 33, 59, 51 ], [ 34, 62, 54 ], [ 35, 65, 57 ],
+				[ 36, 62, 54 ], [ 37, 58, 50 ], [ 38, 55, 47 ], [ 39, 61, 53 ],
+				[ 40, 64, 56 ], [ 41, 65, 57 ], [ 42, 63, 55 ], [ 43, 66, 58 ],
+				[ 44, 67, 59 ], [ 45, 69, 61 ], [ 46, 69, 61 ], [ 47, 70, 62 ],
+				[ 48, 72, 64 ], [ 49, 68, 60 ], [ 50, 66, 58 ], [ 51, 65, 57 ],
+				[ 52, 67, 59 ], [ 53, 70, 62 ], [ 54, 71, 63 ], [ 55, 72, 64 ],
+				[ 56, 73, 65 ], [ 57, 75, 67 ], [ 58, 70, 62 ], [ 59, 68, 60 ],
+				[ 60, 64, 56 ], [ 61, 60, 52 ], [ 62, 65, 57 ], [ 63, 67, 59 ],
+				[ 64, 68, 60 ], [ 65, 69, 61 ], [ 66, 70, 62 ], [ 67, 72, 64 ],
+				[ 68, 75, 67 ], [ 69, 80, 72 ] ]);
+
+		var options = {
+			hAxis : {
+				title : '날짜'
+			},
+			vAxis : {
+				title : '검색량 추이'
+			},
+			series : {
+				1 : {
+					curveType : 'function'
+				}
+			},
+			legend: {position:'bottom'}
+		};
+
+		var chart = new google.visualization.LineChart(document
+				.getElementById('chart_div2'));
+		chart.draw(data, options);
+		window.addEventListener('resize', drawCurveTypes, false);
+	}
+</script>
 
 
 <nav class="navbar navbar-default navbar-fixed">
@@ -190,12 +253,12 @@
 			<div class="col-md-6">
 				<div class="card ">
 					<div class="header">
-						<h4 class="title">핵심 키워드별 검색어 통계</h4>
+						<h4 class="title">막대 그래프 (미정)</h4>
 						<p class="category">철분, 칼슘, 엽산, 비타민 B12 등의 부족</p>
 					</div>
 					<div class="content">
-					<!-- 키워드 검색 -->
-						<div id="chart_div" ></div>
+						<!-- 막대 그래프 -->
+						<div id="chart_div1"></div>
 						<div class="footer">
 							<!--  							
 							<div class="legend">
@@ -212,143 +275,167 @@
 				</div>
 			</div>
 
-			<div class="col-md-6">
-				<div class="card ">
-					<div class="header">
-						<h4 class="title">Tasks</h4>
-						<p class="category">Backend development</p>
-					</div>
-					<div class="content">
-						<div class="table-full-width">
-							<table class="table">
-								<tbody>
-									<tr>
-										<td>
-											<div class="checkbox">
-												<input id="checkbox1" type="checkbox"> <label
-													for="checkbox1"></label>
-											</div>
-										</td>
-										<td>Sign contract for "What are conference organizers
-											afraid of?"</td>
-										<td class="td-actions text-right">
-											<button type="button" rel="tooltip" title="Edit Task"
-												class="btn btn-info btn-simple btn-xs">
-												<i class="fa fa-edit"></i>
-											</button>
-											<button type="button" rel="tooltip" title="Remove"
-												class="btn btn-danger btn-simple btn-xs">
-												<i class="fa fa-times"></i>
-											</button>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<div class="checkbox">
-												<input id="checkbox2" type="checkbox" checked> <label
-													for="checkbox2"></label>
-											</div>
-										</td>
-										<td>Lines From Great Russian Literature? Or E-mails From
-											My Boss?</td>
-										<td class="td-actions text-right">
-											<button type="button" rel="tooltip" title="Edit Task"
-												class="btn btn-info btn-simple btn-xs">
-												<i class="fa fa-edit"></i>
-											</button>
-											<button type="button" rel="tooltip" title="Remove"
-												class="btn btn-danger btn-simple btn-xs">
-												<i class="fa fa-times"></i>
-											</button>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<div class="checkbox">
-												<input id="checkbox3" type="checkbox"> <label
-													for="checkbox3"></label>
-											</div>
-										</td>
-										<td>Flooded: One year later, assessing what was lost and
-											what was found when a ravaging rain swept through metro
-											Detroit</td>
-										<td class="td-actions text-right">
-											<button type="button" rel="tooltip" title="Edit Task"
-												class="btn btn-info btn-simple btn-xs">
-												<i class="fa fa-edit"></i>
-											</button>
-											<button type="button" rel="tooltip" title="Remove"
-												class="btn btn-danger btn-simple btn-xs">
-												<i class="fa fa-times"></i>
-											</button>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<div class="checkbox">
-												<input id="checkbox4" type="checkbox" checked> <label
-													for="checkbox4"></label>
-											</div>
-										</td>
-										<td>Create 4 Invisible User Experiences you Never Knew
-											About</td>
-										<td class="td-actions text-right">
-											<button type="button" rel="tooltip" title="Edit Task"
-												class="btn btn-info btn-simple btn-xs">
-												<i class="fa fa-edit"></i>
-											</button>
-											<button type="button" rel="tooltip" title="Remove"
-												class="btn btn-danger btn-simple btn-xs">
-												<i class="fa fa-times"></i>
-											</button>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<div class="checkbox">
-												<input id="checkbox5" type="checkbox"> <label
-													for="checkbox5"></label>
-											</div>
-										</td>
-										<td>Read "Following makes Medium better"</td>
-										<td class="td-actions text-right">
-											<button type="button" rel="tooltip" title="Edit Task"
-												class="btn btn-info btn-simple btn-xs">
-												<i class="fa fa-edit"></i>
-											</button>
-											<button type="button" rel="tooltip" title="Remove"
-												class="btn btn-danger btn-simple btn-xs">
-												<i class="fa fa-times"></i>
-											</button>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<div class="checkbox">
-												<input id="checkbox6" type="checkbox" checked> <label
-													for="checkbox6"></label>
-											</div>
-										</td>
-										<td>Unfollow 5 enemies from twitter</td>
-										<td class="td-actions text-right">
-											<button type="button" rel="tooltip" title="Edit Task"
-												class="btn btn-info btn-simple btn-xs">
-												<i class="fa fa-edit"></i>
-											</button>
-											<button type="button" rel="tooltip" title="Remove"
-												class="btn btn-danger btn-simple btn-xs">
-												<i class="fa fa-times"></i>
-											</button>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
 
-						<div class="footer">
-							<hr>
-							<div class="stats">
-								<i class="fa fa-history"></i> Updated 3 minutes ago
+			<div class="row">
+				<div class="col-md-6">
+					<div class="card ">
+						<div class="header">
+							<h4 class="title">일별 핵심 키워드 검색량 변화</h4>
+							<p class="category">비건에서 핵심 키워드 추가 고려 요망</p>
+						</div>
+						<div class="content">
+							<!-- 키워드 검색 -->
+							<div id="chart_div2"></div>
+							<div class="footer">
+								<hr>
+								<div class="stats">
+									<i class="fa fa-check"></i> 최다 검색량을 100으로 설정하여 상대적인 변화를 나타냅니다.
+									<br/>
+									<i class="fa fa-check"></i>성별, 연령, 검색환경의 제한을 사용하지 않았습니다. 
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="card ">
+						<div class="header">
+							<h4 class="title">Tasks</h4>
+							<p class="category">Backend development</p>
+						</div>
+						<div class="content">
+							<div class="table-full-width">
+								<table class="table">
+									<tbody>
+										<tr>
+											<td>
+												<div class="checkbox">
+													<input id="checkbox1" type="checkbox"> <label
+														for="checkbox1"></label>
+												</div>
+											</td>
+											<td>Sign contract for "What are conference organizers
+												afraid of?"</td>
+											<td class="td-actions text-right">
+												<button type="button" rel="tooltip" title="Edit Task"
+													class="btn btn-info btn-simple btn-xs">
+													<i class="fa fa-edit"></i>
+												</button>
+												<button type="button" rel="tooltip" title="Remove"
+													class="btn btn-danger btn-simple btn-xs">
+													<i class="fa fa-times"></i>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="checkbox">
+													<input id="checkbox2" type="checkbox" checked> <label
+														for="checkbox2"></label>
+												</div>
+											</td>
+											<td>Lines From Great Russian Literature? Or E-mails From
+												My Boss?</td>
+											<td class="td-actions text-right">
+												<button type="button" rel="tooltip" title="Edit Task"
+													class="btn btn-info btn-simple btn-xs">
+													<i class="fa fa-edit"></i>
+												</button>
+												<button type="button" rel="tooltip" title="Remove"
+													class="btn btn-danger btn-simple btn-xs">
+													<i class="fa fa-times"></i>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="checkbox">
+													<input id="checkbox3" type="checkbox"> <label
+														for="checkbox3"></label>
+												</div>
+											</td>
+											<td>Flooded: One year later, assessing what was lost and
+												what was found when a ravaging rain swept through metro
+												Detroit</td>
+											<td class="td-actions text-right">
+												<button type="button" rel="tooltip" title="Edit Task"
+													class="btn btn-info btn-simple btn-xs">
+													<i class="fa fa-edit"></i>
+												</button>
+												<button type="button" rel="tooltip" title="Remove"
+													class="btn btn-danger btn-simple btn-xs">
+													<i class="fa fa-times"></i>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="checkbox">
+													<input id="checkbox4" type="checkbox" checked> <label
+														for="checkbox4"></label>
+												</div>
+											</td>
+											<td>Create 4 Invisible User Experiences you Never Knew
+												About</td>
+											<td class="td-actions text-right">
+												<button type="button" rel="tooltip" title="Edit Task"
+													class="btn btn-info btn-simple btn-xs">
+													<i class="fa fa-edit"></i>
+												</button>
+												<button type="button" rel="tooltip" title="Remove"
+													class="btn btn-danger btn-simple btn-xs">
+													<i class="fa fa-times"></i>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="checkbox">
+													<input id="checkbox5" type="checkbox"> <label
+														for="checkbox5"></label>
+												</div>
+											</td>
+											<td>Read "Following makes Medium better"</td>
+											<td class="td-actions text-right">
+												<button type="button" rel="tooltip" title="Edit Task"
+													class="btn btn-info btn-simple btn-xs">
+													<i class="fa fa-edit"></i>
+												</button>
+												<button type="button" rel="tooltip" title="Remove"
+													class="btn btn-danger btn-simple btn-xs">
+													<i class="fa fa-times"></i>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div class="checkbox">
+													<input id="checkbox6" type="checkbox" checked> <label
+														for="checkbox6"></label>
+												</div>
+											</td>
+											<td>Unfollow 5 enemies from twitter</td>
+											<td class="td-actions text-right">
+												<button type="button" rel="tooltip" title="Edit Task"
+													class="btn btn-info btn-simple btn-xs">
+													<i class="fa fa-edit"></i>
+												</button>
+												<button type="button" rel="tooltip" title="Remove"
+													class="btn btn-danger btn-simple btn-xs">
+													<i class="fa fa-times"></i>
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="footer">
+								<hr>
+								<div class="stats">
+									<i class="fa fa-history"></i> Updated 3 minutes ago
+								</div>
 							</div>
 						</div>
 					</div>
@@ -356,7 +443,3 @@
 			</div>
 		</div>
 	</div>
-</div>
-
-
-

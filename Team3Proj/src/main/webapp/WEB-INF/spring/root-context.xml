@@ -7,9 +7,7 @@
 	
 	
 	<bean id="dataSourceByJNDI" class="org.springframework.jndi.JndiObjectFactoryBean">
-	
 		<property name="jndiName" value="VEVE"/>
-
 		<property name="resourceRef" value="true"/>
 	</bean>		
 		<!-- 마이바티스 지원을 위한 빈(mybatis-spring-2.x.jar 등록 -->
